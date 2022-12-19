@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdDAOPostgres implements AdDAO {
+public class AdDAOpostgres implements AdDAO {
 
     private Connection conn;
 
-    public AdDAOPostgres(Connection conn){
+    public AdDAOpostgres(Connection conn){
         this.conn = conn;
     }
 
@@ -67,7 +67,7 @@ public class AdDAOPostgres implements AdDAO {
 
     @Override
     public void saveOrUpdate(Ad ad) {
-        if(findByPrimaryKey(ad.getId()) != null){ //UPDATE
+        if(ad.getId() != null){ //UPDATE
             String query = "UPDATE ads SET title=?," +
                     " description =?," +
                     " user =?," +

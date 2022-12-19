@@ -1,14 +1,18 @@
 package it.unical.mat.progettoweb2022;
 
+import it.unical.mat.progettoweb2022.model.Ad;
+import it.unical.mat.progettoweb2022.model.Image;
 import it.unical.mat.progettoweb2022.model.User;
 import it.unical.mat.progettoweb2022.persistenza.DBManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.swing.*;
+import java.io.*;
 import java.util.List;
 
 @SpringBootTest
-class ProgettoWeb2022ApplicationTests {
+class ProgettoWeb2022ApplicationTests extends JFrame{
 
     @Test
     void userDAOworks() {
@@ -36,5 +40,48 @@ class ProgettoWeb2022ApplicationTests {
         DBManager.getInstance().getUserDao().saveOrUpdate(user2);
         System.out.println(user2.toString());
     }
+
+    @Test
+    void adDAOworks() {
+        //FINDALL
+        List<Ad> adList = DBManager.getInstance().getAdDao().findAll();
+    }
+
+    @Test
+    void imageDAOworks() throws IOException {
+              /*
+        byte[] bytes = null;
+        JFileChooser filechooser = new JFileChooser();
+        int result = filechooser.showOpenDialog(this);
+        if(result == JFileChooser.APPROVE_OPTION){
+            File file = filechooser.getSelectedFile();
+            try {
+                bytes = Files.readAllBytes(file.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        for(byte b : bytes){
+            System.out.println(b);
+        }
+        */
+        /*
+        Image image = new Image();
+        image.setAd(1);
+        image.setData(bytes);
+        */
+        Image image = DBManager.getInstance().getImageDao().findByPrimaryKey(1);
+        File imageFile = new File("IMAGGINEFICA.jpg");
+        try {
+            FileOutputStream op = new FileOutputStream(imageFile);
+            op.write(image.getData());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 
 }
