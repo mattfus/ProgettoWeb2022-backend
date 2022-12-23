@@ -4,9 +4,11 @@ import it.unical.mat.progettoweb2022.Protocol;
 import it.unical.mat.progettoweb2022.model.User;
 import it.unical.mat.progettoweb2022.persistenza.DAO.UserDAO;
 import it.unical.mat.progettoweb2022.persistenza.DBManager;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.util.net.jsse.JSSEUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +31,7 @@ public class Auth {
                 HttpSession session = req.getSession();
                 session.setAttribute("user", user);
                 session.setAttribute("sessionId", session.getId());
-                req.getServletContext().setAttribute(session.getId(), user);
+                req.getServletContext().setAttribute(session.getId(), session);
                 return req.getSession().getId();
             }else{
                 return Protocol.INCORRECT_PASSWORD;
@@ -68,11 +70,26 @@ public class Auth {
             HttpSession session = req.getSession();
             session.setAttribute("user", user);
             session.setAttribute("sessionId", session.getId());
-            req.getServletContext().setAttribute(session.getId(), user);
+            req.getServletContext().setAttribute(session.getId(), session);
             return session.getId();
         }else{
             return Protocol.USER_EXISTS;
         }
     }
+
+    @GetMapping("/checkLoggedIn")
+    @ResponseBody
+    @CrossOrigin("http://localhost:4200/")
+    public boolean checkLoggedIn(HttpServletRequest req, HttpServletResponse resp, @RequestParam String sessionId){
+        System.out.println("APPENA LOGGATO" + sessionId);
+        ServletContext context = req.getServletContext();
+        Object user = context.getAttribute(sessionId);
+        if(user != null){
+            return true;
+        }
+        return false;
+    }
+
+
 
 }
