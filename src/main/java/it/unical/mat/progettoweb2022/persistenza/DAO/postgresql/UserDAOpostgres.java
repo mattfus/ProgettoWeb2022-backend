@@ -70,17 +70,17 @@ public class UserDAOpostgres implements UserDAO {
     }
 
     @Override
-    public void saveOrUpdate(User user) {
-        User u = findByPrimaryKey(user.getNickname()); //check if user already exists
-        if(u != null) { //UPDATE if exists
-            String query = "UPDATE users SET name = ?," +
-                            " lastname = ?," +
-                            " age = ?," +
-                            " password = ?," +
-                            " email = ?," +
-                            " role = ?," +
-                            " isbanned = ?" +
-                            " WHERE nickname = ?";
+    public boolean saveOrUpdate(User user) {
+        String query;
+        if(user.getId() != null) { //UPDATE if exists
+            query = "UPDATE users SET name = ?," +
+                    " lastname = ?," +
+                    " age = ?," +
+                    " password = ?," +
+                    " email = ?," +
+                    " role = ?," +
+                    " isbanned = ?" +
+                    " WHERE nickname = ?";
 
             try {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -101,12 +101,11 @@ public class UserDAOpostgres implements UserDAO {
                     user.setBanned(rs.getBoolean("isbanned"));
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                return false;
             }
 
-
         }else{ //INSERT if not exists
-            String query = "INSERT INTO users VALUES(DEFAULT,?, ?, ?, ?, ?, ?, ?, ?)";
+            query = "INSERT INTO users VALUES(DEFAULT,?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, user.getName());
@@ -122,14 +121,12 @@ public class UserDAOpostgres implements UserDAO {
                 ResultSet rs = st.getGeneratedKeys();
                 if(rs.next()){
                     user.setId(rs.getInt(1));
-                    System.out.println(rs.getInt("id"));
-                    user.setBanned(rs.getBoolean("banned"));
-                    user.setRole(rs.getString("role"));
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                return false;
             }
         }
+        return true;
     }
 
     @Override

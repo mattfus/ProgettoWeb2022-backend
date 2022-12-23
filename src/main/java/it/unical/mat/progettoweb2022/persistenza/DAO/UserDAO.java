@@ -11,7 +11,7 @@ public interface UserDAO {
 
     public User findByPrimaryKey(String nickname);
 
-    public void saveOrUpdate(User utente);
+    public boolean saveOrUpdate(User utente);
 
     public void delete(User utente);
 }
