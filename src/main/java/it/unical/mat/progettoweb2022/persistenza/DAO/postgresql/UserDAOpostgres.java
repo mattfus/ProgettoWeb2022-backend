@@ -73,7 +73,8 @@ public class UserDAOpostgres implements UserDAO {
     public boolean saveOrUpdate(User user) {
         String query;
         if(user.getId() != null) { //UPDATE if exists
-            query = "UPDATE users SET name = ?," +
+            query = "UPDATE users SET " +
+                    " name = ?," +
                     " lastname = ?," +
                     " age = ?," +
                     " password = ?," +

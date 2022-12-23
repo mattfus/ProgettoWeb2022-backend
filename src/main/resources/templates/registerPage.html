@@ -54,7 +54,7 @@
                                 <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com">
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="number" name="age" class="form-control" id="ageInptu" placeholder="Age">
+                                <input type="number" name="age" class="form-control" id="ageInput" placeholder="Age">
                             </div>
                             <hr>
                             <div class="form-floating mb-3">
@@ -90,23 +90,54 @@
     </div>
     <script type="text/javascript">
         $(document).ready(function () {
-            let name = document.querySelector("#nicknameInput");
-            let pass = document.querySelector("#passwordInput");
+            let nicknameInput = document.querySelector("#nicknameInput");
+            let nameInput = document.querySelector("#nameInput");
+            let lastnameInput = document.querySelector("#lastnameInput");
+            let emailInput = document.querySelector("#emailInput");
+            let ageInput = document.querySelector("#ageInput");
+            let passwordInput = document.querySelector("#passwordInput");
+            let cPassInput = document.querySelector("#cPassInput");
             $('#submitButton').click(function () {
-                if(name.value !== undefined && pass.value !== undefined) {
-                    $.post('doRegister',   // url
-                        {nickname: name.value,
-                            password: pass.value}, // data to be submit
-                        function (response, status, jqXHR) {// success callback
-                            if(response === "ERROR") {
-                                $('p').text("Something went wrong");
-                            }else if(response === "USER_EXISTS"){
-                                $('p').text("User already exists.");
+                if(nicknameInput.value != "" && nameInput.value != "" && lastnameInput.value != "") {
+                    if(emailInput.value != ""){
+                        if(ageInput.value != "" && ageInput.value >= 18){
+                            if(passwordInput.value != "" && cPassInput.value != ""){
+                                if(passwordInput.value.length >= 8){
+                                    if(passwordInput.value == cPassInput.value){
+                                        $.post('doRegister',   // url
+                                            {   nickname: nicknameInput.value,
+                                                name: nameInput.value,
+                                                lastname: lastnameInput.value,
+                                                email: emailInput.value,
+                                                age: ageInput.value,
+                                                password: passwordInput.value}, // data to be submit
+                                            function (response, status, jqXHR) {// success callback
+                                                if(response === "ERROR") {
+                                                    $('p').text("Something went wrong");
+                                                }else if(response === "USER_EXISTS"){
+                                                    $('p').text("User already exists.");
+                                                }else{
+                                                    console.log(response);
+                                                    window.location.replace("http://localhost:4200/dashboard?sessionId=" + response);
+                                                }
+                                            });
+                                    }else{
+                                        $('p').text("Passwords don't match.");
+                                    }
+                                }else{
+                                    $('p').text("Password must be at least 8 characters.");
+                                }
                             }else{
-                                console.log(response);
-                                window.location.replace("http://localhost:4200/dashboard?sessionId=" + response);
+                                $('p').text("Please enter your password");
                             }
-                        });
+                        }else{
+                            $('p').text("Your need to be at least 18 years old.");
+                        }
+                    }else{
+                        $('p').text("Please enter a valid email address");
+                    }
+                }else{
+                    $('p').text("Please enter a valid nickname, name and lastname.");
                 }
             });
         });
