@@ -20,17 +20,21 @@ public class Service {
 
     @GetMapping("/ads")
     public List<Ad> getAds(){
+        System.out.println("DAMMI ANNUNCI ________________");
         AdDAO dao = DBManager.getInstance().getAdDao();
         return dao.findAll();
     }
 
-    @GetMapping("/nickname")
-    public List<String> getNickname(HttpServletRequest req, @RequestParam String sessionId){
-        HttpSession session = (HttpSession) req.getServletContext().getAttribute(sessionId);
-        System.out.println("HO CERCATO L'UTENTE " + session.getId());
-        User user = (User) session.getAttribute("user");
-        List<String> list = new ArrayList<String>();
-        list.add(user.getNickname());
-        return list;
+    @GetMapping("/user")
+    public User getNickname(HttpServletRequest req, @RequestParam String parameter, @RequestParam Boolean bySession){
+        System.out.println("DAMMI USER __________________");
+        User user = null;
+        if(bySession) {
+            HttpSession session = (HttpSession) req.getServletContext().getAttribute(parameter);
+            user = (User) session.getAttribute("user");
+        }else{
+            user = DBManager.getInstance().getUserDao().findByPrimaryKey(parameter);
+        }
+        return user;
     }
 }

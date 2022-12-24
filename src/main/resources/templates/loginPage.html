@@ -20,31 +20,17 @@
 </head>
 
 <body>
-<nav class="navbar navbar-light navbar-expand-md py-3" style="padding: 0px;">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" data-bss-hover-animate="pulse" href="http://localhost:4200/">
-      <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center mr-2 bs-icon" style="font-size: 20px;width: 50px;height: 50px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-house-fill" style="font-size: 50px;">
-          <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"></path>
-          <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"></path>
-        </svg>
-      </span>
-      <span style="font-size: 47px;">CasaSubito.it</span>
-    </a>
-    <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="navbar-toggler-icon" style="font-size: 17px;"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcol-2" style="margin-right: -26px;margin-left: 0px;">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item"><a class="nav-link active" data-bss-hover-animate="pulse" href="#">Help</a></li>
-        <li class="nav-item"><a class="nav-link active" data-bss-hover-animate="pulse" href="#">Contact Us</a></li>
-      </ul>
-      <a class="btn btn-primary btn-outline-primary" role="button" data-bss-hover-animate="pulse" style="margin: 1%;" href="http://localhost:8080/login">Login</a>
-      <a class="btn btn-primary btn-outline-primary" role="button" data-bss-hover-animate="pulse" style="margin: 1%;" href="http://localhost:8080/register">Register</a>
-    </div>
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <a class="my-0 mr-md-auto" href="http://localhost:4200/"><h1 class="my-0 mr-md-auto display-4 font-weight-normal ml-4">CasaSubito.it</h1></a>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="#">Supporto</a>
+      <a class="p-2 text-dark" href="#">Contattaci</a>
+    </nav>
+    <nav>
+      <a class="btn btn-outline-primary mr-md-3" href="http://localhost:8080/register">Register</a>
+      <a class="btn btn-outline-primary" href="http://localhost:8080/login">Login</a>
+    </nav>
   </div>
-</nav>
 
   <div class="container">
     <div class="row">
@@ -71,17 +57,17 @@
               <div>
                 <p class="h5"></p>
               </div>
-              <a class="d-block text-center mt-2 small" href="#">Don't have an account? Sign up!</a>
+              <a class="d-block text-center mt-2 small" href="#">Non hai un account? Registrati!</a>
             </form>
               <hr class="my-4">
               <div class="d-grid mb-2">
                 <button class="btn btn-lg btn-google btn-login fw-bold text-uppercase" type="submit">
-                  <i class="fab fa-google me-2"></i> Registrati con Google
+                  <i class="fab fa-google me-2"></i> Login con Google
                 </button>
               </div>
               <div class="d-grid">
                 <button class="btn btn-lg btn-facebook btn-login fw-bold text-uppercase" type="submit">
-                  <i class="fab fa-facebook-f me-2"></i> Registrati con Facebook
+                  <i class="fab fa-facebook-f me-2"></i> Login con Facebook
                 </button>
               </div>
           </div>

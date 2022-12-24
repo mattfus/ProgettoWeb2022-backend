@@ -90,6 +90,16 @@ public class Auth {
         return false;
     }
 
-
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest req, HttpServletResponse resp, @RequestParam String sessionId){
+        req.getSession().removeAttribute("user");
+        req.getSession().removeAttribute("sessionId");
+        req.getServletContext().removeAttribute(req.getSession().getId());
+        try {
+            resp.sendRedirect("http://localhost:4200");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

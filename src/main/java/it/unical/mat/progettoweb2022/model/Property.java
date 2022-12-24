@@ -10,6 +10,8 @@ public class Property {
     String latitude;
     String longitude;
 
+    String user;
+
     public Integer getId() {
         return id;
     }
@@ -48,6 +50,14 @@ public class Property {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @Override

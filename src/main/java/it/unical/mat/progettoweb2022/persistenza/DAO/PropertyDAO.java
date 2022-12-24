@@ -13,4 +13,6 @@ public interface PropertyDAO {
     public void saveOrUpdate(Property property);
 
     public void delete(Property property);
+
+    List<Property> findByOwner(String nickname);
 }
