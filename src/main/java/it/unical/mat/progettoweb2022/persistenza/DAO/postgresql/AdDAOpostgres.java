@@ -2,6 +2,7 @@ package it.unical.mat.progettoweb2022.persistenza.DAO.postgresql;
 
 import it.unical.mat.progettoweb2022.model.Ad;
 import it.unical.mat.progettoweb2022.persistenza.DAO.AdDAO;
+import it.unical.mat.progettoweb2022.persistenza.DBManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class AdDAOpostgres implements AdDAO {
                 ad.setId(rs.getInt("id"));
                 ad.setTitle(rs.getString("title"));
                 ad.setDescription(rs.getString("description"));
-                ad.setUser(rs.getString("user"));
-                ad.setProperty(rs.getInt("property"));
+                ad.setUser(DBManager.getInstance().getUserDao().findByPrimaryKey(rs.getString("user")));
+                ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
                 ad.setPrice(rs.getDouble("price"));
                 ad.setMq(rs.getDouble("mq"));
 
@@ -54,8 +55,8 @@ public class AdDAOpostgres implements AdDAO {
                 ad.setId(rs.getInt("id"));
                 ad.setTitle(rs.getString("title"));
                 ad.setDescription(rs.getString("description"));
-                ad.setUser(rs.getString("user"));
-                ad.setProperty(rs.getInt("property"));
+                ad.setUser(DBManager.getInstance().getUserDao().findByPrimaryKey(rs.getString("user")));
+                ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
                 ad.setPrice(rs.getDouble("price"));
                 ad.setMq(rs.getDouble("mq"));
             }
@@ -78,8 +79,8 @@ public class AdDAOpostgres implements AdDAO {
                 PreparedStatement st = conn.prepareStatement(query);
                 st.setString(1, ad.getTitle());
                 st.setString(2, ad.getDescription());
-                st.setString(3, ad.getUser());
-                st.setInt(4, ad.getProperty());
+                st.setString(3, ad.getUser().getNickname());
+                st.setInt(4, ad.getProperty().getId());
                 st.setDouble(5, ad.getPrice());
                 st.setDouble(6, ad.getMq());
 
@@ -93,8 +94,8 @@ public class AdDAOpostgres implements AdDAO {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, ad.getTitle());
                 st.setString(2, ad.getDescription());
-                st.setString(3, ad.getUser());
-                st.setInt(4, ad.getProperty());
+                st.setString(3, ad.getUser().getNickname());
+                st.setInt(4, ad.getProperty().getId());
                 st.setDouble(5, ad.getPrice());
                 st.setDouble(6, ad.getMq());
 

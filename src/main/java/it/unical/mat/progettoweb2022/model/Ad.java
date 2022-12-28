@@ -5,8 +5,8 @@ public class Ad {
     Integer id;
     String title;
     String description;
-    String user;
-    Integer property;
+    User user;
+    Property property;
     Double price;
     Double mq;
 
@@ -34,19 +34,19 @@ public class Ad {
         this.description = description;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public Integer getProperty() {
+    public Property getProperty() {
         return property;
     }
 
-    public void setProperty(Integer property) {
+    public void setProperty(Property property) {
         this.property = property;
     }
 
