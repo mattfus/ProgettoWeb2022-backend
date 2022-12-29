@@ -2,6 +2,7 @@ package it.unical.mat.progettoweb2022;
 
 import it.unical.mat.progettoweb2022.model.Ad;
 import it.unical.mat.progettoweb2022.model.Image;
+import it.unical.mat.progettoweb2022.model.Property;
 import it.unical.mat.progettoweb2022.model.User;
 import it.unical.mat.progettoweb2022.persistenza.DBManager;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,10 @@ class ProgettoWeb2022ApplicationTests extends JFrame{
     void adDAOworks() {
         //FINDALL
         List<Ad> adList = DBManager.getInstance().getAdDao().findAll();
+        for(Ad a : adList){
+            System.out.println(a.getId().toString());
+            System.out.println(a.getTitle().toString());
+        }
     }
 
     @Test
@@ -79,9 +84,14 @@ class ProgettoWeb2022ApplicationTests extends JFrame{
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
-
+    @Test
+    void propertyDaoWorks() {
+        List<Property> pList = DBManager.getInstance().getPropertyDao().findAll();
+        for(Property p : pList) {
+            System.out.println(p.getId().toString());
+            System.out.println(p.getType().toString());
+        }
+    }
 }

@@ -14,6 +14,17 @@ public class UserDAOpostgres implements UserDAO {
         this.conn = conn;
     }
 
+    private void setUser(ResultSet rs, User user) throws SQLException {
+        user.setId(rs.getInt("id"));
+        user.setName(rs.getString("name"));
+        user.setLastname(rs.getString("lastname"));
+        user.setAge(rs.getInt("age"));
+        user.setNickname(rs.getString("nickname"));
+        user.setPassword(rs.getString("password"));
+        user.setEmail(rs.getString("email"));
+        user.setRole(rs.getString("role"));
+        user.setBanned(rs.getBoolean("isbanned"));
+    }
 
     @Override
     public List<User> findAll() {
@@ -25,16 +36,7 @@ public class UserDAOpostgres implements UserDAO {
             users = new ArrayList<User>();
             while(rs.next()){
                 User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setLastname(rs.getString("lastname"));
-                user.setAge(rs.getInt("age"));
-                user.setNickname(rs.getString("nickname"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
-                user.setBanned(rs.getBoolean("isbanned"));
-
+                setUser(rs, user);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -53,15 +55,7 @@ public class UserDAOpostgres implements UserDAO {
             ResultSet rs = st.executeQuery();
             if(rs.next()){
                 user = new User();
-                user.setId(rs.getInt("id"));
-                user.setName(rs.getString("name"));
-                user.setLastname(rs.getString("lastname"));
-                user.setAge(rs.getInt("age"));
-                user.setNickname(rs.getString("nickname"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setRole(rs.getString("role"));
-                user.setBanned(rs.getBoolean("isbanned"));
+                setUser(rs, user);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

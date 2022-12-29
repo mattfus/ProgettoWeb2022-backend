@@ -16,6 +16,16 @@ public class AdDAOpostgres implements AdDAO {
         this.conn = conn;
     }
 
+    private void setAd(ResultSet rs, Ad ad) throws SQLException {
+        ad.setId(rs.getInt("id"));
+        ad.setTitle(rs.getString("title"));
+        ad.setDescription(rs.getString("description"));
+        ad.setUser(DBManager.getInstance().getUserDao().findByPrimaryKey(rs.getString("user")));
+        ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
+        ad.setPrice(rs.getDouble("price"));
+        ad.setMq(rs.getDouble("mq"));
+    }
+
     @Override
     public List<Ad> findAll() {
         List<Ad> adList =  null;
@@ -26,14 +36,7 @@ public class AdDAOpostgres implements AdDAO {
             adList = new ArrayList<Ad>();
             while(rs.next()){
                 Ad ad = new Ad();
-                ad.setId(rs.getInt("id"));
-                ad.setTitle(rs.getString("title"));
-                ad.setDescription(rs.getString("description"));
-                ad.setUser(DBManager.getInstance().getUserDao().findByPrimaryKey(rs.getString("user")));
-                ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
-                ad.setPrice(rs.getDouble("price"));
-                ad.setMq(rs.getDouble("mq"));
-
+                setAd(rs, ad);
                 adList.add(ad);
             }
         } catch (SQLException e) {
@@ -52,18 +55,22 @@ public class AdDAOpostgres implements AdDAO {
             ResultSet rs = st.executeQuery();
             if(rs.next()){
                 ad = new Ad();
-                ad.setId(rs.getInt("id"));
-                ad.setTitle(rs.getString("title"));
-                ad.setDescription(rs.getString("description"));
-                ad.setUser(DBManager.getInstance().getUserDao().findByPrimaryKey(rs.getString("user")));
-                ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
-                ad.setPrice(rs.getDouble("price"));
-                ad.setMq(rs.getDouble("mq"));
+                setAd(rs, ad);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return ad;
+    }
+
+    private void setData(Ad ad, PreparedStatement st) throws SQLException {
+        st.setString(1, ad.getTitle());
+        st.setString(2, ad.getDescription());
+        st.setString(3, ad.getUser().getNickname());
+        st.setInt(4, ad.getProperty().getId());
+        st.setDouble(5, ad.getPrice());
+        st.setDouble(6, ad.getMq());
+        st.executeUpdate();
     }
 
     @Override
@@ -77,14 +84,7 @@ public class AdDAOpostgres implements AdDAO {
                     " mq =? WHERE id =?";
             try {
                 PreparedStatement st = conn.prepareStatement(query);
-                st.setString(1, ad.getTitle());
-                st.setString(2, ad.getDescription());
-                st.setString(3, ad.getUser().getNickname());
-                st.setInt(4, ad.getProperty().getId());
-                st.setDouble(5, ad.getPrice());
-                st.setDouble(6, ad.getMq());
-
-                st.executeUpdate();
+                setData(ad, st);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -92,14 +92,7 @@ public class AdDAOpostgres implements AdDAO {
             String query = "INSERT INTO ads VALUES(DEFAULT, ?, ? ,?, ?, ? ,?)";
             try {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                st.setString(1, ad.getTitle());
-                st.setString(2, ad.getDescription());
-                st.setString(3, ad.getUser().getNickname());
-                st.setInt(4, ad.getProperty().getId());
-                st.setDouble(5, ad.getPrice());
-                st.setDouble(6, ad.getMq());
-
-                st.executeUpdate();
+                setData(ad, st);
                 ResultSet rs = st.getGeneratedKeys();
                 if(rs.next()){
                     ad.setId(rs.getInt("id"));

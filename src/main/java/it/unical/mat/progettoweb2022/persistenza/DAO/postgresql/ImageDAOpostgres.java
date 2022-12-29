@@ -14,6 +14,13 @@ public class ImageDAOpostgres implements ImageDAO {
     public ImageDAOpostgres (Connection conn){
         this.conn = conn;
     }
+
+    private void setImage(Image image, ResultSet rs) throws SQLException {
+        image.setId(rs.getInt("id"));
+        image.setData(rs.getBytes("image"));
+        image.setAd(rs.getInt("ad"));
+    }
+
     @Override
     public List<Image> findAll()  {
         List<Image> listImages = new ArrayList<>();
@@ -23,10 +30,7 @@ public class ImageDAOpostgres implements ImageDAO {
             ResultSet rs = st.executeQuery(query);
             while(rs.next()) {
                 Image image = new Image();
-                image.setId(rs.getInt("id"));
-                image.setData(rs.getBytes("image"));
-                image.setAd(rs.getInt("ad"));
-
+                setImage(image, rs);
                 listImages.add(image);
             }
         } catch (SQLException e) {
@@ -45,9 +49,7 @@ public class ImageDAOpostgres implements ImageDAO {
             ResultSet rs = st.executeQuery();
             if(rs.next()) {
                 image = new Image();
-                image.setId(rs.getInt("id"));
-                image.setData(rs.getBytes("image"));
-                image.setAd(rs.getInt("ad"));
+                setImage(image, rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -65,10 +67,7 @@ public class ImageDAOpostgres implements ImageDAO {
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
                 Image image = new Image();
-                image.setId(rs.getInt("id"));
-                image.setData(rs.getBytes("image"));
-                image.setAd(rs.getInt("ad"));
-
+                setImage(image, rs);
                 listImages.add(image);
             }
         } catch (SQLException e) {
