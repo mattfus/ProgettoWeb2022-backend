@@ -8,8 +8,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.util.net.jsse.JSSEUtil;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,11 +27,15 @@ public class Auth {
         System.out.println(user.toString());
         if(user.getId() != null){
             if(user.getPassword().equals(password)){
-                HttpSession session = req.getSession();
-                session.setAttribute("user", user);
-                session.setAttribute("sessionId", session.getId());
-                req.getServletContext().setAttribute(session.getId(), session);
-                return req.getSession().getId();
+                if(!user.getBanned()) {
+                    HttpSession session = req.getSession();
+                    session.setAttribute("user", user);
+                    session.setAttribute("sessionId", session.getId());
+                    req.getServletContext().setAttribute(session.getId(), session);
+                    return req.getSession().getId();
+                }else{
+                    return Protocol.USER_BANNED;
+                }
             }else{
                 return Protocol.INCORRECT_PASSWORD;
             }

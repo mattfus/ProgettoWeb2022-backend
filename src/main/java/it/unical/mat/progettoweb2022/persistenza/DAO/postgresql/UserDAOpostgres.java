@@ -34,6 +34,11 @@ public class UserDAOpostgres implements UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getString("role"));
                 user.setBanned(rs.getBoolean("isbanned"));
+                user.setTelephone(rs.getString("telephone"));
+                user.setState(rs.getString("state"));
+                user.setCountry(rs.getString("country"));
+                user.setAddress(rs.getString("address"));
+                user.setPostalCode(rs.getString("postalCode"));
 
                 users.add(user);
             }
@@ -62,6 +67,11 @@ public class UserDAOpostgres implements UserDAO {
                 user.setEmail(rs.getString("email"));
                 user.setRole(rs.getString("role"));
                 user.setBanned(rs.getBoolean("isbanned"));
+                user.setTelephone(rs.getString("telephone"));
+                user.setState(rs.getString("state"));
+                user.setCountry(rs.getString("country"));
+                user.setAddress(rs.getString("address"));
+                user.setPostalCode(rs.getString("postalCode"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,7 +90,12 @@ public class UserDAOpostgres implements UserDAO {
                     " password = ?," +
                     " email = ?," +
                     " role = ?," +
-                    " isbanned = ?" +
+                    " isbanned = ?," +
+                    " telephone = ?," +
+                    " state = ?," +
+                    " country = ?," +
+                    " address = ?," +
+                    " postalCode = ?" +
                     " WHERE nickname = ?";
 
             try {
@@ -92,7 +107,12 @@ public class UserDAOpostgres implements UserDAO {
                 st.setString(5, user.getEmail());
                 st.setString(6, user.getRole());
                 st.setBoolean(7, user.getBanned());
-                st.setString(8, user.getNickname());
+                st.setString(8, user.getTelephone());
+                st.setString(9, user.getState());
+                st.setString(10, user.getCountry());
+                st.setString(11, user.getAddress());
+                st.setString(12, user.getPostalCode());
+                st.setString(13, user.getNickname());
 
                 st.executeUpdate();
                 ResultSet rs = st.getGeneratedKeys();
@@ -106,7 +126,7 @@ public class UserDAOpostgres implements UserDAO {
             }
 
         }else{ //INSERT if not exists
-            query = "INSERT INTO users VALUES(DEFAULT,?, ?, ?, ?, ?, ?, ?, ?)";
+            query = "INSERT INTO users VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, ? , ? , ? , ?, ?)";
             try {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, user.getName());
@@ -117,6 +137,12 @@ public class UserDAOpostgres implements UserDAO {
                 st.setString(6, user.getEmail());
                 st.setString(7, user.getRole());
                 st.setBoolean(8, false);
+                st.setString(9, user.getTelephone());
+                st.setString(10, user.getState());
+                st.setString(11, user.getCountry());
+                st.setString(12, user.getAddress());
+                st.setString(13, user.getPostalCode());
+
 
                 st.executeUpdate();
                 ResultSet rs = st.getGeneratedKeys();

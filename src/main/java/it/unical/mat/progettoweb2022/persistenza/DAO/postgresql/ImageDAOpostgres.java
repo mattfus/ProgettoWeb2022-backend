@@ -82,11 +82,15 @@ public class ImageDAOpostgres implements ImageDAO {
         if(image.getId() == null){
             String query = "INSERT INTO images VALUES(DEFAULT, ?, ?);";
             try {
-                PreparedStatement st = conn.prepareStatement(query);
+                PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 st.setBytes(1, image.getData());
                 st.setInt(2, image.getAd());
 
                 st.executeUpdate();
+                ResultSet rs = st.getGeneratedKeys();
+                if(rs.next()){
+                    image.setId(rs.getInt("id"));
+                }
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);

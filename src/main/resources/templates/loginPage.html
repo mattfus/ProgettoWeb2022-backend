@@ -90,7 +90,9 @@
                       }else if(response === "INCORRECT_PASSWORD"){
                         $('p').text("Password is incorrect, try again.");
                       }else if(response === "USER_NOT_EXISTS"){
-                        $('p').text("User not exists, please register.");
+                        $('p').text("User does not exists, please register.");
+                      }else if(response === "USER_BANNED"){
+                        $('p').text("This user has denied access to the website. Contact Us");
                       }else{
                         console.log(response);
                         window.location.replace("http://localhost:4200/dashboard?sessionId=" + response);

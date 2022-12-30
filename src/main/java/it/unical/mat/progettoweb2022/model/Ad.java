@@ -9,6 +9,8 @@ public class Ad {
     Property property;
     Double price;
     Double mq;
+    String status;
+    String city;
 
     public Integer getId() {
         return id;
@@ -66,4 +68,34 @@ public class Ad {
         this.mq = mq;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "Ad{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", user=" + user +
+                ", property=" + property +
+                ", price=" + price +
+                ", mq=" + mq +
+                ", status='" + status + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

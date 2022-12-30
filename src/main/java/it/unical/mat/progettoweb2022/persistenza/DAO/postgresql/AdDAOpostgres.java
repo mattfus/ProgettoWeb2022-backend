@@ -33,6 +33,8 @@ public class AdDAOpostgres implements AdDAO {
                 ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
                 ad.setPrice(rs.getDouble("price"));
                 ad.setMq(rs.getDouble("mq"));
+                ad.setStatus(rs.getString("status"));
+                ad.setCity(rs.getString("city"));
 
                 adList.add(ad);
             }
@@ -59,6 +61,8 @@ public class AdDAOpostgres implements AdDAO {
                 ad.setProperty(DBManager.getInstance().getPropertyDao().findByPrimaryKey(rs.getInt("property")));
                 ad.setPrice(rs.getDouble("price"));
                 ad.setMq(rs.getDouble("mq"));
+                ad.setStatus(rs.getString("status"));
+                ad.setCity(rs.getString("city"));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -74,7 +78,9 @@ public class AdDAOpostgres implements AdDAO {
                     " user =?," +
                     " property =?," +
                     " price =?," +
-                    " mq =? WHERE id =?";
+                    " mq =?," +
+                    " status =?," +
+                    " city =? WHERE id =?";
             try {
                 PreparedStatement st = conn.prepareStatement(query);
                 st.setString(1, ad.getTitle());
@@ -83,13 +89,15 @@ public class AdDAOpostgres implements AdDAO {
                 st.setInt(4, ad.getProperty().getId());
                 st.setDouble(5, ad.getPrice());
                 st.setDouble(6, ad.getMq());
+                st.setString(7, ad.getStatus());
+                st.setString(8, ad.getCity());
 
                 st.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }else{ //INSERT
-            String query = "INSERT INTO ads VALUES(DEFAULT, ?, ? ,?, ?, ? ,?)";
+            String query = "INSERT INTO ads VALUES(DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?)";
             try {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, ad.getTitle());
@@ -98,6 +106,8 @@ public class AdDAOpostgres implements AdDAO {
                 st.setInt(4, ad.getProperty().getId());
                 st.setDouble(5, ad.getPrice());
                 st.setDouble(6, ad.getMq());
+                st.setString(7, ad.getStatus());
+                st.setString(8, ad.getCity());
 
                 st.executeUpdate();
                 ResultSet rs = st.getGeneratedKeys();
