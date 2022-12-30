@@ -15,6 +15,15 @@ public class PropertyDAOpostgres implements PropertyDAO {
         this.conn = conn;
     }
 
+    private void setProperty(Property property, ResultSet rs) throws SQLException {
+        property.setId(rs.getInt("id"));
+        property.setType(rs.getString("type"));
+        property.setMq(rs.getDouble("mq"));
+        property.setLatitude(rs.getString("latitude"));
+        property.setLongitude(rs.getString("longitude"));
+        property.setUser(rs.getString("owner"));
+    }
+
     @Override
     public List<Property> findAll() {
         List<Property> propertyList = null;
@@ -25,13 +34,7 @@ public class PropertyDAOpostgres implements PropertyDAO {
             propertyList = new ArrayList<Property>();
             while (rs.next()) {
                 Property property = new Property();
-                property.setId(rs.getInt("id"));
-                property.setType(rs.getString("type"));
-                property.setMq(rs.getDouble("mq"));
-                property.setLatitude(rs.getString("latitude"));
-                property.setLongitude(rs.getString("longitude"));
-                property.setUser(rs.getString("owner"));
-
+                setProperty(property, rs);
                 propertyList.add(property);
             }
         } catch (SQLException e) {
@@ -52,12 +55,7 @@ public class PropertyDAOpostgres implements PropertyDAO {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 property = new Property();
-                property.setId(rs.getInt("id"));
-                property.setType(rs.getString("type"));
-                property.setMq(rs.getDouble("mq"));
-                property.setLatitude(rs.getString("latitude"));
-                property.setLongitude(rs.getString("longitude"));
-                property.setUser(rs.getString("owner"));
+                setProperty(property, rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -131,12 +129,7 @@ public class PropertyDAOpostgres implements PropertyDAO {
             ResultSet rs = st.executeQuery();
             while(rs.next()) {
                 Property p = new Property();
-                p.setId(rs.getInt("id"));
-                p.setType(rs.getString("type"));
-                p.setMq(rs.getDouble("mq"));
-                p.setLatitude(rs.getString("latitude"));
-                p.setLongitude(rs.getString("longitude"));
-                p.setUser(rs.getString("owner"));
+                setProperty(p, rs);
 
                 properties.add(p);
             }
