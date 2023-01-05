@@ -25,7 +25,6 @@ public class PropertyManagerController {
             for (Property i : properties) {
 
                 if (i != null) {
-                    System.out.println(i.getType());
                     i.setUser(u.getNickname());
                     i.setLatitude("10.10.01.01");
                     i.setLongitude("10.01.0.02");

@@ -1,13 +1,7 @@
 package it.unical.mat.progettoweb2022.persistenza;
 
-import it.unical.mat.progettoweb2022.persistenza.DAO.AdDAO;
-import it.unical.mat.progettoweb2022.persistenza.DAO.ImageDAO;
-import it.unical.mat.progettoweb2022.persistenza.DAO.PropertyDAO;
-import it.unical.mat.progettoweb2022.persistenza.DAO.UserDAO;
-import it.unical.mat.progettoweb2022.persistenza.DAO.postgresql.ImageDAOpostgres;
-import it.unical.mat.progettoweb2022.persistenza.DAO.postgresql.PropertyDAOpostgres;
-import it.unical.mat.progettoweb2022.persistenza.DAO.postgresql.UserDAOpostgres;
-import it.unical.mat.progettoweb2022.persistenza.DAO.postgresql.AdDAOpostgres;
+import it.unical.mat.progettoweb2022.persistenza.DAO.*;
+import it.unical.mat.progettoweb2022.persistenza.DAO.postgresql.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -54,5 +48,9 @@ public class DBManager {
 
     public ImageDAO getImageDao() {
         return new ImageDAOpostgres(getConnection());
+    }
+
+    public ReviewDAO getReviewDao() {
+        return new ReviewDAOpostgres(getConnection());
     }
 }

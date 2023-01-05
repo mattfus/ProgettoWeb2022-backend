@@ -15,4 +15,6 @@ public interface PropertyDAO {
     public void delete(Property property);
 
     List<Property> findByOwner(String nickname);
+
+    Property findByAdId(Integer adId);
 }

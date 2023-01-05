@@ -9,8 +9,9 @@ public class Property {
     Double mq;
     String latitude;
     String longitude;
-
     String user;
+
+    Integer ad;
 
     public Integer getId() {
         return id;
@@ -60,6 +61,14 @@ public class Property {
         this.user = user;
     }
 
+    public Integer getAd() {
+        return ad;
+    }
+
+    public void setAd(Integer ad) {
+        this.ad = ad;
+    }
+
     @Override
     public String toString() {
         return "Property{" +
@@ -68,6 +77,8 @@ public class Property {
                 ", mq=" + mq +
                 ", latitude='" + latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
+                ", user='" + user + '\'' +
+                ", ad=" + ad +
                 '}';
     }
 }

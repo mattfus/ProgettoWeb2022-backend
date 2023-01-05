@@ -22,6 +22,7 @@ public class PropertyDAOpostgres implements PropertyDAO {
         property.setLatitude(rs.getString("latitude"));
         property.setLongitude(rs.getString("longitude"));
         property.setUser(rs.getString("owner"));
+        property.setAd(rs.getInt("ad"));
     }
 
     @Override
@@ -66,7 +67,7 @@ public class PropertyDAOpostgres implements PropertyDAO {
     @Override
     public void saveOrUpdate(Property property) {
         if (property.getId() == null) {
-            String query = "INSERT INTO properties VALUES(DEFAULT, ?, ?, ?, ?,?);";
+            String query = "INSERT INTO properties VALUES(DEFAULT, ?, ?, ?, ?, ?, ?);";
             try {
                 PreparedStatement st = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                 st.setString(1, property.getType());
@@ -89,7 +90,8 @@ public class PropertyDAOpostgres implements PropertyDAO {
                     " mq = ?," +
                     " latitude = ?," +
                     " longitude = ?," +
-                    " owner = ?" +
+                    " owner = ?," +
+                    " ad = ?" +
                     " WHERE id =?;";
             try {
                 PreparedStatement st = conn.prepareStatement(query);
@@ -98,6 +100,7 @@ public class PropertyDAOpostgres implements PropertyDAO {
                 st.setString(3, property.getLatitude());
                 st.setString(4, property.getLongitude());
                 st.setString(5, property.getUser());
+                st.setInt(6, property.getAd());
                 st.setInt(5, property.getId());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -137,5 +140,22 @@ public class PropertyDAOpostgres implements PropertyDAO {
             throw new RuntimeException(e);
         }
         return properties;
+    }
+
+    public Property findByAdId(Integer id){
+        Property property = null;
+        String query = "SELECT * FROM properties WHERE ad =?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if(rs.next()) {
+                property = new Property();
+                setProperty(property, rs);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return property;
     }
 }
